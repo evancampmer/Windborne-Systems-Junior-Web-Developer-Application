@@ -118,28 +118,19 @@ with st.spinner("Fetching last 24h of balloon data..."):
 # Convert to DataFrame
 df = pd.DataFrame(records)
 
-df["country_display"] = df.apply(
-    lambda row: row["country"] if row["country"] else f"lat: {row['lat']:.2f}, lon: {row['lon']:.2f}",
-    axis=1
-)
-df["state_display"] = df.apply(
-    lambda row: row["state"] if row["state"] else "N/A",
-    axis=1
-)
-
 # Show interactive map
 st.subheader("Balloon Positions Map")
 fig = px.scatter_geo(
     df,
     lat="lat",
     lon="lon",
-    hover_name="country_display",
-    hover_data=["state_display", "alt"],
+    hover_name="country",
+    hover_data=["state", "alt"],
     color="country_display",
     scope="world",
     title="Live Balloon Constellation"
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width=True)
 
 # Show raw data
 st.subheader("Balloon Data Table")
@@ -147,6 +138,6 @@ st.dataframe(df)
 
 # Summary chart
 st.subheader("Balloon Count by Country")
-country_counts = df["country_display"].value_counts().reset_index()
+country_counts = df["country"].value_counts().reset_index()
 country_counts.columns = ["country", "balloon_count"]
 st.bar_chart(country_counts.set_index("country"))
