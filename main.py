@@ -7,12 +7,6 @@ from shapely.geometry import Point
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-"""
-I added a mapping data set that would give me the precise location of balloons that are flying over certain regions and it would update dynamically with the balloon API
-as they move. The only limitation is that you can only see those on the map that are actually associated with the country and state and not one that just exists in the
-atmosphere at a certain latitude and longitude.  
-"""
-
 
 @st.cache_data
 def load_shapefiles():
@@ -139,9 +133,9 @@ fig = px.scatter_geo(
     df,
     lat="lat",
     lon="lon",
-    hover_name="country",
-    hover_data=["state", "alt"],
-    color="country",
+    hover_name="country_display",
+    hover_data=["state_display", "alt"],
+    color="country_display",
     scope="world",
     title="Live Balloon Constellation"
 )
@@ -153,6 +147,6 @@ st.dataframe(df)
 
 # Summary chart
 st.subheader("Balloon Count by Country")
-country_counts = df["country"].value_counts().reset_index()
+country_counts = df["country_display"].value_counts().reset_index()
 country_counts.columns = ["country", "balloon_count"]
 st.bar_chart(country_counts.set_index("country"))
