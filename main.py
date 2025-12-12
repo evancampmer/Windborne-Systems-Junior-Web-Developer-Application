@@ -11,8 +11,8 @@ import plotly.express as px
 
 @st.cache_data
 def load_shapefiles():
-    countries = gpd.read_file(r"shapefiles\ne_10m_admin_0_countries.shp")
-    states = gpd.read_file(r"shapefiles\ne_10m_admin_1_states_provinces.shp")
+    countries = gpd.read_file(r"shapefiles/ne_10m_admin_0_countries.shp")
+    states = gpd.read_file(r"shapefiles/ne_10m_admin_1_states_provinces.shp")
     return countries, states
 
 countries, states = load_shapefiles()
